@@ -24,6 +24,7 @@ namespace Practice.Diary_Writer
 
         private string wordCounterVisual;
 
+        public List<string> FontSizelist { get; set; } 
         public string WordCounterVisual
         {
             get { return wordCounterVisual; }
@@ -31,13 +32,18 @@ namespace Practice.Diary_Writer
             {
                 wordCounterVisual = value;
                 OnPropertyChanged("WordCounterVisual");
-    }
+            }
         }
+
+        
+
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
             WordCounterVisual = "0(0)";
+            FontSizelist = new List<string>() { "2", "4", "6", "8", "10", "12", "14", "16", "18", "20" };
         }
 
 
@@ -58,10 +64,10 @@ namespace Practice.Diary_Writer
         {
             DiaryPageBlck.Text = TypeTxtb.Text;
             CounterMethod();
-            if (TypeTxtb.Text.Length >= 600)
+            if (TypeTxtb.Text.Length >= 6000)
             {
-                TypeTxtb.Text = TypeTxtb.Text.Substring(0,600);
-            }    
+                TypeTxtb.Text = TypeTxtb.Text.Substring(0,6000);//Limit Text Length to 6000 words counting White Space
+            }
         }
 
         // a button that change style of text
@@ -112,7 +118,6 @@ namespace Practice.Diary_Writer
             //Create a string value to store the updated value
         }
 
-   
     }
 }
 
