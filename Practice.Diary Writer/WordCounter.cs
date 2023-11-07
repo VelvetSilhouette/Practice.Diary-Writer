@@ -9,15 +9,15 @@ namespace Practice.Diary_Writer
     public class WordCounter
     {
 
-        public int AllTextCounter {  get; set; }
-        public int NoSpaceCounter { get; set; }
+        public int Counter {  get; set; } = 0;
+        public int NoSpaceCounter { get; set; } = 0;
 
         //New object that count Word with/without white space
 
-        public WordCounter (int AllTextCounter,int NoSpaceCounter) 
+        public override string ToString()
         {
-            this.AllTextCounter = AllTextCounter;
-            this.NoSpaceCounter = NoSpaceCounter;
+            return Counter + "(" + NoSpaceCounter +")";
         }
+         
     }
 }

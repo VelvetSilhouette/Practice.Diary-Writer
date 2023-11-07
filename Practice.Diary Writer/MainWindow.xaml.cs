@@ -24,7 +24,8 @@ namespace Practice.Diary_Writer
 
         private string wordCounterVisual;
 
-        public List<string> FontSizelist { get; set; } 
+        public List<int> FontSizelist { get; set; } 
+
         public string WordCounterVisual
         {
             get { return wordCounterVisual; }
@@ -34,22 +35,15 @@ namespace Practice.Diary_Writer
                 OnPropertyChanged("WordCounterVisual");
             }
         }
-
-        
-
-
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
             WordCounterVisual = "0(0)";
-            FontSizelist = new List<string>() { "2", "4", "6", "8", "10", "12", "14", "16", "18", "20" };
+            FontSizelist = new List<int>() { 6, 10, 15 , 20, 25, 30, 35, 40, 45, 50 };
         }
 
-
         //Create INotifyPrpertyChanged to update WordCounter(Complicated,ask the boy later
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName) 
@@ -63,7 +57,12 @@ namespace Practice.Diary_Writer
         private void TypeTxtb_TextChanged(object sender, TextChangedEventArgs e)
         {
             DiaryPageBlck.Text = TypeTxtb.Text;
-            CounterMethod();
+            string TrimmedText = DiaryPageBlck.Text.Trim(' ');
+            //make a string of the textblock without space to count it.
+            WordCounter Counter1 = new WordCounter { Counter = DiaryPageBlck.Text.Length, NoSpaceCounter = TrimmedText.Length };
+            WordCounterVisual = Counter1.ToString();
+            //Store the updated value for binding
+            
             if (TypeTxtb.Text.Length >= 6000)
             {
                 TypeTxtb.Text = TypeTxtb.Text.Substring(0,6000);//Limit Text Length to 6000 words counting White Space
@@ -105,17 +104,24 @@ namespace Practice.Diary_Writer
             {
                 DiaryPageBlck.FontWeight = FontWeights.Regular;
             }
-
         }
 
-
-        private void CounterMethod()
+        private void FontSizeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string TrimmedText = DiaryPageBlck.Text.Trim(' ');
-            WordCounter WordCounterValue = new WordCounter(DiaryPageBlck.Text.Length, TrimmedText.Length);
-            //make a string of the textblock without space to count it.
-            WordCounterVisual = $"{WordCounterValue.AllTextCounter}({WordCounterValue.NoSpaceCounter})";
-            //Create a string value to store the updated value
+            ComboBox cb = sender as ComboBox;
+            if (cb.SelectedValue != null)
+            {
+                double NewFontSize = (int)cb.SelectedValue;
+                DiaryPageBlck.FontSize = NewFontSize;
+            }
+        }
+
+        private void FontSizeList_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsNumber(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
 
     }
