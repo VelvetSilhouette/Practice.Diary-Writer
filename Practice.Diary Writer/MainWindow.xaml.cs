@@ -38,7 +38,7 @@ namespace Practice.Diary_Writer
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             WordCounterVisual = "0(0)";
             FontSizelist = new List<int>() { 6, 10, 15 , 20, 25, 30, 35, 40, 45, 50 };
         }
@@ -62,13 +62,11 @@ namespace Practice.Diary_Writer
             WordCounter Counter1 = new WordCounter { Counter = DiaryPageBlck.Text.Length, NoSpaceCounter = TrimmedText.Length };
             WordCounterVisual = Counter1.ToString();
             //Store the updated value for binding
-            
             if (TypeTxtb.Text.Length >= 6000)
             {
                 TypeTxtb.Text = TypeTxtb.Text.Substring(0,6000);//Limit Text Length to 6000 words counting White Space
             }
         }
-
         // a button that change style of text
         private void Italicbtn_Click(object sender, RoutedEventArgs e)
         {
@@ -116,14 +114,38 @@ namespace Practice.Diary_Writer
             }
         }
 
-        private void FontSizeList_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            if (!char.IsNumber(e.Text, e.Text.Length - 1))
+            private void FontSizeList_PreviewTextInput(object sender, TextCompositionEventArgs e)
             {
-                e.Handled = true;
+                if (!char.IsNumber(e.Text, e.Text.Length - 1))
+                {
+                    e.Handled = true;
+                //Check FontSize to make sure it's a number 
+                }
+            }
+
+        private void FontSizeList_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (FontSizeList.Text != "")
+            {
+                DiaryPageBlck.FontSize = Convert.ToInt32(FontSizeList.Text);
+                //Allow user to enter custom Font Size
             }
         }
 
+        private void TxtAllignLeftBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DiaryPageBlck.TextAlignment = TextAlignment.Left;
+        }
+
+        private void TxtAllignMidBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DiaryPageBlck.TextAlignment = TextAlignment.Center;
+        }
+
+        private void TxtAllignRightBtn_Click(Object sender, RoutedEventArgs e)
+        {
+            DiaryPageBlck.TextAlignment = TextAlignment.Right;
+        }
     }
 }
 
